@@ -1,0 +1,5 @@
+INFO Application started successfully
+INFO User login successful
+WARNING Disk Usage is high
+ERROR Failed to connect to database
+INFO Application stopped
