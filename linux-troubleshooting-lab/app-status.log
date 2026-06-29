@@ -1,0 +1,7 @@
+INFO Application started
+INFO Loading configuration
+WARNING Disk usage reaching threshold
+ERROR Database connection failed
+INFO Retrying database connection
+ERROR Authentication service timeout
+INFO Application still running
