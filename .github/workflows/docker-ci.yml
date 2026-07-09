@@ -1,0 +1,29 @@
+name: Docker CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check project files
+        run: |
+          ls -la
+          ls -la docker-basic-web-app
+          test -f docker-basic-web-app/Dockerfile
+          test -f docker-basic-web-app/app.py
+          test -f docker-basic-web-app/requirements.txt
+
+      - name: Build Docker image
+        run: |
+          docker build -t docker-basic-web-app:ci ./docker-basic-web-app
