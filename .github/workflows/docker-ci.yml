@@ -24,6 +24,14 @@ jobs:
           test -f docker-basic-web-app/app.py
           test -f docker-basic-web-app/requirements.txt
 
+      - name: Login to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
       - name: Build Docker image
         run: |
-          docker build -t docker-basic-web-app:ci ./docker-basic-web-app
+          docker build -t cocomiyati/docker-basic-web-app:latest ./docker-basic-web-app
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          docker push cocomiyati/docker-basic-web-app:latest
