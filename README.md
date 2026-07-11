@@ -53,3 +53,39 @@ docker ps
 docker logs docker-basic-web-app
 docker stop docker-basic-web-app
 docker rm docker-basic-web-app
+
+
+## GitHub Actions CI Pipeline
+
+This project includes a GitHub Actions CI workflow for the Docker basic web app.
+
+The workflow file is located at:
+
+```text
+.github/workflows/docker-ci.yml
+
+The workflow runs automatically when code is pushed to the main branch or when a pull request targets main.
+
+What the workflow does
+Creates a temporary Ubuntu GitHub Actions runner.
+Checks out the repository using actions/checkout@v4.
+Checks that the required Docker project files exist:
+docker-basic-web-app/Dockerfile
+docker-basic-web-app/app.py
+docker-basic-web-app/requirements.txt
+
+Builds the Docker image using:
+docker build -t docker-basic-web-app:ci ./docker-basic-web-app
+
+Key learning points
+docker-ci.yml is the GitHub Actions workflow file.
+The Dockerfile contains the instructions for building the Docker image.
+actions/checkout@v4 downloads the repository code into the GitHub Actions runner.
+test -f checks that a required file exists.
+docker build reads the Dockerfile and builds the Docker image.
+The image is built inside the temporary GitHub Actions runner.
+The image is not pushed to Docker Hub yet.
+When the runner is destroyed after the job, the locally built image disappears.
+
+Current CI status
+The Docker CI workflow has passed successfully.
