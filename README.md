@@ -64,3 +64,43 @@ The workflow file is located at:
 ```text
 .github/workflows/docker-ci.yml
 ```
+### Docker Hub Image Push
+
+The GitHub Actions workflow now logs in to Docker Hub, builds the Docker image, and pushes it to Docker Hub.
+
+The image is published as:
+
+```text
+cocomiyati/docker-basic-web-app:latest
+```
+
+### Docker Hub workflow steps
+
+1. GitHub Actions starts when code is pushed to the `main` branch.
+2. A temporary Ubuntu runner is created.
+3. The repository is checked out using `actions/checkout@v4`.
+4. Docker logs in to Docker Hub using GitHub Secrets:
+   - `DOCKERHUB_USERNAME`
+   - `DOCKERHUB_TOKEN`
+5. Docker builds the image:
+
+```bash
+docker build -t cocomiyati/docker-basic-web-app:latest ./docker-basic-web-app
+```
+
+6. Docker pushes the image to Docker Hub:
+
+```bash
+docker push cocomiyati/docker-basic-web-app:latest
+```
+
+### Key learning points
+
+- GitHub stores the source code.
+- Docker Hub stores Docker images.
+- GitHub Secrets securely store credentials such as Docker Hub tokens.
+- `docker build` creates a Docker image.
+- `docker push` uploads the image to Docker Hub.
+- `docker pull` downloads the image from Docker Hub.
+- The `latest` tag usually points to the most recent/default image, but it can change.
+- Version tags like `v1.0.0` are safer for production because they are clearer and more predictable.
