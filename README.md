@@ -170,16 +170,28 @@ deploy-docker-app.sh
 
 The script pulls the latest image, stops the existing container, removes the old container, starts a new container, and shows the running containers.
 
-The scriptThe scriptThe scriptThe scriptThe scriptThe scdepThe scckThe scriptT``
+The script was made executable using:
 
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTT`bash
-.....................................earning points
+```bash
+chmod +x deploy-docker-app.sh
+```
+
+The script was run using:
+
+```bash
+./deploy-docker-app.sh
+```
+
+### Key learning points
 
 - GitHub stores the application source code.
-- GitHu- GitHu- GitHu- GitHu- Ghes the Docker image.
+- GitHub Actions builds and pushes the Docker image.
 - Docker Hub stores the Docker image.
 - EC2 pulls the image from Docker Hub.
 - EC2 runs the image as a Docker container.
-- `docker pull` down- `docker pull` down- `docker p
-- - - - - - - - - - - - - - - - - a containe- - - - - - - - - - - - - - - - - a containe- - - - - - - - - - - - - - - - - a containe- - - -ma-es t- - - - - - - - - - s rep- - -le.
+- `docker pull` downloads an image from a registry.
+- `docker run` creates and starts a container from an image.
+- `-p 80:5000` maps EC2 port 80 to container port 5000.
+- A deployment script makes the deployment process repeatable.
 
+EOF
