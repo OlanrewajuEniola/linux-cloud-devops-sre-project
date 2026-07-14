@@ -103,4 +103,83 @@ docker push cocomiyati/docker-basic-web-app:latest
 - `docker push` uploads the image to Docker Hub.
 - `docker pull` downloads the image from Docker Hub.
 - The `latest` tag usually points to the most recent/default image, but it can change.
-- Version tags like `v1.0.0` are safer for production because they are clearer and more predictable.
+- Version tags like `v1.0.0` are safer for production because they are clearer and more predictable.## EC2 Docker Deployment
+The Docker image was deployed to an Ubuntu EC2 instance.
+The image used for deployment is:
+
+```text
+cocomiyati/docker-basic-web-app:latest
+
+```
+
+### EC2 setup
+
+The EC2 instance was created using Ubuntu Server.
+
+Docker was installed on the EC2 instance using:
+
+```bash
+sudo apt update
+sudo apt install docker.io -y
+```
+
+Docker was started and enabled using:
+
+```bash
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo systemctl status docker
+```
+
+### Pulling the image from Docker Hub
+
+The image was pulled from Docker Hub using:
+
+```bash
+sudo docker pull cocomiyati/docker-basic-web-app:latest
+```
+
+### Running the container on EC2
+
+The container was started using:
+
+```bash
+sudo docker run -d --name docker-basic-web-app -p 80:5000 cocomiyati/docker-basic-web-app:latest
+```
+
+The port mapping means:
+
+```text
+EC2 port 80 → container port 5000
+```
+
+The application was tested using:
+
+```text
+http://<EC2_PUBLIC_IP>
+http://<EC2_PUBLIC_IP>/health
+```
+
+### Deployment script
+
+A deployment script was created on the EC2 instance:
+
+```bash
+deploy-docker-app.sh
+```
+
+The script pulls the latest image, stops the existing container, removes the old container, starts a new container, and shows the running containers.
+
+The scriptThe scriptThe scriptThe scriptThe scriptThe scdepThe scckThe scriptT``
+
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTT`bash
+.....................................earning points
+
+- GitHub stores the application source code.
+- GitHu- GitHu- GitHu- GitHu- Ghes the Docker image.
+- Docker Hub stores the Docker image.
+- EC2 pulls the image from Docker Hub.
+- EC2 runs the image as a Docker container.
+- `docker pull` down- `docker pull` down- `docker p
+- - - - - - - - - - - - - - - - - a containe- - - - - - - - - - - - - - - - - a containe- - - - - - - - - - - - - - - - - a containe- - - -ma-es t- - - - - - - - - - s rep- - -le.
+
