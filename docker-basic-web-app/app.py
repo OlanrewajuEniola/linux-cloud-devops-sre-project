@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello Ola! This is my first Dockerized Python web app."
+    return "Hello Ola! This app was updated through my CI/CD pipeline."
 
 @app.route("/health")
 def health():
