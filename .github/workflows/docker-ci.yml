@@ -45,5 +45,7 @@ jobs:
 
       - name: Verify live app health
         run: |
+          echo "Waiting for app to become ready..."
+          sleep 10
           echo "Checking live app health endpoint..."
-          curl -f http://${{ secrets.EC2_HOST }}/health
+          curl --retry 5 --retry-delay 5 --retry-connrefused -f http://${{ secrets.EC2_HOST }}/health
