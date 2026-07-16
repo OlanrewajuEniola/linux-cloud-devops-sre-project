@@ -43,4 +43,8 @@ jobs:
           chmod 600 ~/.ssh/ec2_key
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "./deploy-docker-app.sh"
 
-          
+  
+      - name: Verify live app health
+        run: |
+          echo "Checking live app health endpoint..."
+          curl -f http://${{ secrets.EC2_HOST }}/health
