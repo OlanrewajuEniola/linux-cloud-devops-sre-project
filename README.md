@@ -191,6 +191,32 @@ After the Docker image is built, pushed to Docker Hub, and deployed to the EC2 i
 ```bash
 curl --retry 5 --retry-delay 5 --retry-connrefused -f http://${{ secrets.EC2_HOST }}/health
 ```
+### Docker restart policy
+
+The deployment script runs the container with a restart policy:
+
+```bash
+--restart unless-stopped
+```
+
+This allows Docker to automatically restart the container if it crashes or if the EC2 instance/Docker service restarts.
+
+The container will not restart automatically if it was deliberately stopped by the user.
+
+The restart policy was confirmed using:
+
+```bash
+sudo docker inspect docker-basic-web-app --format='{{.HostConfig.RestartPolicy.Name}}'
+```
+Expected output:
+
+```text
+unless-stopped
+```
+
+### Why this is important
+
+The restart policy improves application reliability because the container can recover automatically from crashes or server restarts without needing manual intervention.
 
 ### Key learning points
 
@@ -204,4 +230,5 @@ curl --retry 5 --retry-delay 5 --retry-connrefused -f http://${{ secrets.EC2_HOS
 - `-p 80:5000` maps EC2 port 80 to container port 5000.
 - A deployment script makes the deployment process repeatable.
 - A health check confirms the live application is reachable after deployment.
+- `--restart unless-stopped` automatically restarts the container after crashes or server restarts unless it was manually stopped.
 
