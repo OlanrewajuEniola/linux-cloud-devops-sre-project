@@ -182,6 +182,16 @@ The script was run using:
 ./deploy-docker-app.sh
 ```
 
+## CI/CD Deployment Health Check
+
+The GitHub Actions workflow now verifies that the application is live after deployment.
+
+After the Docker image is built, pushed to Docker Hub, and deployed to the EC2 instance, the workflow checks the `/health` endpoint:
+
+```bash
+curl --retry 5 --retry-delay 5 --retry-connrefused -f http://${{ secrets.EC2_HOST }}/health
+```
+
 ### Key learning points
 
 - GitHub stores the application source code.
@@ -193,5 +203,5 @@ The script was run using:
 - `docker run` creates and starts a container from an image.
 - `-p 80:5000` maps EC2 port 80 to container port 5000.
 - A deployment script makes the deployment process repeatable.
+- A health check confirms the live application is reachable after deployment.
 
-EOF
