@@ -58,3 +58,13 @@ resource "aws_security_group" "web_sg" {
     name = "${var.project_name}-sg"
   }
 }
+
+resource "aws_instance" "web_server" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  tags = {
+    Name = "${var.project_name}-server"
+  }
+}
