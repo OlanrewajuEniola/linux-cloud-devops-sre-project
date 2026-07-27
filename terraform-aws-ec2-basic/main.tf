@@ -11,6 +11,21 @@ provider "aws" {
   region = var.aws_region
 }
 
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_security_group" "web_sg" {
   name        = "${var.project_name}-sg"
   description = "Allow SSH and HTTP traffic"
@@ -42,4 +57,31 @@ resource "aws_security_group" "web_sg" {
   tags = {
     name = "${var.project_name}-sg"
   }
+}
+
+resource "aws_key_pair" "terraform_key" {
+  key_name   = "${var.project_name}-key"
+  public_key = file("~/.ssh/id_rsa.pub")
+}
+
+resource "aws_instance" "web_server" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.instance_type
+  user_data              = <<-EOF
+    #!/bin/bash
+    apt update
+    apt install nginx -y
+    systemctl start nginx
+    systemctl enable nginx
+  EOF
+  key_name               = aws_key_pair.terraform_key.key_name
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  tags = {
+    Name = "${var.project_name}-server"
+  }
+}
+
+resource "aws_eip" "elastic_ip" {
+  instance = aws_instance.web_server.id
 }
