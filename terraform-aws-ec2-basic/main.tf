@@ -61,7 +61,7 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_key_pair" "terraform_key" {
   key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("~/.ssh/terraform-web-key-v2.pub")
 }
 
 resource "aws_instance" "web_server" {
