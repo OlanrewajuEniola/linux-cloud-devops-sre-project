@@ -21,7 +21,23 @@ spec:
         - name: python-web-app
           image: cocomiyati/docker-basic-web-app:latest
           ports:
-            - containerPort: 5000 
+            - containerPort: 5000
+          readinessProbe: 
+            httpGet:
+              path: /
+              port: 5000
+            initalDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
           resources:
             requests:
               cpu: 100m
