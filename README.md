@@ -619,6 +619,12 @@ Through this project, I learned how to:
 - Troubleshoot SSH authentication problems.
 - Resolve SSH host fingerprint warnings after replacing an EC2 instance.
 - Verify a deployment using a browser, `curl`, SSH, `systemctl`, and Cloud-Init logs.
+- Deployed and managed a containerised application using Kubernetes Deployments, ReplicaSets, Pods, and Services.
+- Practised both manual and automatic scaling using replica configuration and Horizontal Pod Autoscaler (HPA).
+- Configured CPU and memory requests/limits and used Metrics Server to monitor resource utilisation.
+- Troubleshot Metrics Server using `kubectl describe`, `kubectl logs`, and `kubectl top`, including resolving a local TLS certificate issue.
+- Implemented Readiness and Liveness Probes to improve application availability and self-healing.
+- Successfully demonstrated HPA scaling the application from 2 to 8 Pods under CPU load and automatically scaling back to 2 Pods when the load was removed.
 
 ---
 
@@ -635,4 +641,5 @@ The final Terraform deployment successfully:
 - Served the Nginx welcome page over HTTP.
 - Allowed successful SSH access.
 - Passed browser, `curl`, service, and Cloud-Init verification checks.
+- The project now demonstrates containerisation, CI/CD, infrastructure automation, Kubernetes orchestration, self-healing, health checking, resource management, and automatic horizontal scaling.
 
