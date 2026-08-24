@@ -559,6 +559,43 @@ After removing the old entries, the SSH connection succeeded.
 
 ---
 
+## Kubernetes Deployment and Scaling
+
+### Deployment and Pods
+Kubernetes Deployment manages the desired state of the application Pods. If a Pod fails or crashes, the Deployment, through its ReplicaSet, ensures a replacement Pod is created so that the configured number of replicas is maintained.
+
+### Kubernetes Service
+Kubernetes Service provides a stable network endpoint for accessing the application and distributes incoming traffic across Ready Pods. In this project, the Service receives traffic on port `80` and forwards it to the Flask application on `targetPort: 5000`.
+
+### Manual Scaling
+Kubernetes Pods can be manually scaled in or out by changing the desired number of replicas. Scaling out increases the number of Pods, while scaling in reduces the number of Pods.
+
+Manual scaling was tested using both:
+- Imperative scaling with `kubectl scale`
+- Declarative scaling by changing `replicas` in `main.yaml` and applying the configuration
+
+### Resource Requests and Limits
+CPU and memory requests and limits were configured to define the resources required and permitted for each container. The CPU request also provides the baseline used by the HPA to calculate CPU utilisation.
+
+### Metrics Server and Horizontal Pod Autoscaler
+Metrics Server collects CPU and memory utilisation metrics from Kubernetes Nodes and Pods.
+
+The Horizontal Pod Autoscaler (HPA) uses CPU metrics to automatically scale the Deployment based on the configured target utilisation.
+
+HPA configuration:
+- Minimum replicas: `2`
+- Maximum replicas: `10`
+- Target CPU utilisation: `70%`
+
+HPA was practically tested by generating CPU load and observing Kubernetes automatically scale the application from 2 Pods to 8 Pods and back to 2 Pods after the load was removed.
+
+### Readiness and Liveness Probes
+A Readiness Probe checks whether the application inside a Pod is ready to receive traffic. If the probe fails, the Pod is marked `NotReady` and the Service stops routing traffic to it until it recovers.
+
+A Liveness Probe checks whether the application is still functioning. If the probe repeatedly fails, Kubernetes restarts the container to attempt recovery.
+
+---
+
 ## 📚 Key Lessons Learned
 
 Through this project, I learned how to:
@@ -598,3 +635,4 @@ The final Terraform deployment successfully:
 - Served the Nginx welcome page over HTTP.
 - Allowed successful SSH access.
 - Passed browser, `curl`, service, and Cloud-Init verification checks.
+
