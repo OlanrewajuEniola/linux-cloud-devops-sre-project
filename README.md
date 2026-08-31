@@ -598,3 +598,15 @@ The final Terraform deployment successfully:
 - Served the Nginx welcome page over HTTP.
 - Allowed successful SSH access.
 - Passed browser, `curl`, service, and Cloud-Init verification checks.
+
+### ConfigMaps and Secrets
+
+A ConfigMap was used to store non-sensitive application configuration such as `APP_ENV` and `LOG_LEVEL`, allowing configuration to be changed without rebuilding the Docker image.
+
+A Kubernetes Secret was used for sensitive values such as `DB_PASSWORD` and `API_TOKEN`. Secret values were Base64-encoded for the lab, but Base64 was demonstrated to be encoding rather than encryption.
+
+The Deployment references ConfigMap values using `configMapKeyRef` and Secret values using `secretKeyRef`, making them available inside the container as environment variables.
+
+ConfigMap changes used as environment variables require the container to restart before existing Pods receive the updated values. This was tested using a rolling restart with the Deployment.
+
+The local `secret.yaml` file is excluded from Git using `.gitignore` so secret values are not committed to the repository.

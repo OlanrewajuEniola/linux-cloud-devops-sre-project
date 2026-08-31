@@ -12,3 +12,6 @@ crash.*.log
 # Terraform variable secrets
 *.tfvars
 *.tfvars.json
+
+# Kubernetes Secrets
+kubernetes/secret.yaml
