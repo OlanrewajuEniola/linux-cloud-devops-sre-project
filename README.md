@@ -596,6 +596,18 @@ A Liveness Probe checks whether the application is still functioning. If the pro
 
 ---
 
+### ConfigMaps and Secrets
+
+A ConfigMap was used to store non-sensitive application configuration such as `APP_ENV` and `LOG_LEVEL`, allowing configuration to be changed without rebuilding the Docker image.
+
+A Kubernetes Secret was used for sensitive values such as `DB_PASSWORD` and `API_TOKEN`. Secret values were Base64-encoded for the lab, but Base64 was demonstrated to be encoding rather than encryption.
+
+The Deployment references ConfigMap values using `configMapKeyRef` and Secret values using `secretKeyRef`, making them available inside the container as environment variables.
+
+ConfigMap changes used as environment variables require the container to restart before existing Pods receive the updated values. This was tested using a rolling restart with the Deployment.
+
+The local `secret.yaml` file is excluded from Git using `.gitignore` so secret values are not committed to the repository.
+
 ## 📚 Key Lessons Learned
 
 Through this project, I learned how to:
@@ -625,34 +637,31 @@ Through this project, I learned how to:
 - Troubleshot Metrics Server using `kubectl describe`, `kubectl logs`, and `kubectl top`, including resolving a local TLS certificate issue.
 - Implemented Readiness and Liveness Probes to improve application availability and self-healing.
 - Successfully demonstrated HPA scaling the application from 2 to 8 Pods under CPU load and automatically scaling back to 2 Pods when the load was removed.
+- Used Kubernetes ConfigMaps to separate non-sensitive application configuration from the container image.
+- Used Kubernetes Secrets to manage sensitive application values and understood that Base64 encoding is not encryption.
+- Injected ConfigMap and Secret values into Pods as environment variables using `configMapKeyRef` and `secretKeyRef`.
+- Applied configuration changes and used a rolling restart to recreate Pods with updated environment variables.
+- Protected the local `secret.yaml` file from being committed to Git by adding it to `.gitignore`.
 
 ---
 
 ## 🎯 Final Result
 
-The final Terraform deployment successfully:
+The completed project successfully demonstrates:
 
-- Created an Ubuntu EC2 instance.
-- Created and attached a Security Group.
-- Created and used a new SSH Key Pair.
-- Allocated and associated an Elastic IP.
-- Ran a User Data script during first boot.
-- Installed and started Nginx automatically.
-- Served the Nginx welcome page over HTTP.
-- Allowed successful SSH access.
-- Passed browser, `curl`, service, and Cloud-Init verification checks.
-- The project now demonstrates containerisation, CI/CD, infrastructure automation, Kubernetes orchestration, self-healing, health checking, resource management, and automatic horizontal scaling.
+- Linux command-line administration and troubleshooting.
+- Git and GitHub version control workflows.
+- Containerisation of a Python web application using Docker.
+- Automated Docker image build and deployment using GitHub Actions CI/CD.
+- AWS infrastructure provisioning using Terraform.
+- Creation and management of an Ubuntu EC2 instance, Security Group, SSH Key Pair, and Elastic IP.
+- Automated server configuration using EC2 User Data and Cloud-Init.
+- Kubernetes application deployment using Deployments, ReplicaSets, Pods, and Services.
+- Application self-healing using Kubernetes desired state and health probes.
+- CPU and memory resource management using requests and limits.
+- Automatic horizontal scaling using the Horizontal Pod Autoscaler (HPA) and Metrics Server.
+- Separation of application configuration using Kubernetes ConfigMaps.
+- Management of sensitive application values using Kubernetes Secrets.
+- Injection of configuration and secret values into Pods using `configMapKeyRef` and `secretKeyRef`.
+- Safe handling of local secret configuration by excluding `secret.yaml` from Git.
 
-
-
-### ConfigMaps and Secrets
-
-A ConfigMap was used to store non-sensitive application configuration such as `APP_ENV` and `LOG_LEVEL`, allowing configuration to be changed without rebuilding the Docker image.
-
-A Kubernetes Secret was used for sensitive values such as `DB_PASSWORD` and `API_TOKEN`. Secret values were Base64-encoded for the lab, but Base64 was demonstrated to be encoding rather than encryption.
-
-The Deployment references ConfigMap values using `configMapKeyRef` and Secret values using `secretKeyRef`, making them available inside the container as environment variables.
-
-ConfigMap changes used as environment variables require the container to restart before existing Pods receive the updated values. This was tested using a rolling restart with the Deployment.
-
-The local `secret.yaml` file is excluded from Git using `.gitignore` so secret values are not committed to the repository.
